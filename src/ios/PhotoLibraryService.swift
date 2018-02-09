@@ -545,8 +545,10 @@ final class PhotoLibraryService {
                     
                 }) { (isSuccess, error) in
                     if isSuccess {
-                        fetchAssets(urlObj!)
+                        // TODO why doesn't this work                    
+                        // fetchAssets(urlObj!)
                         // completion("Saved", nil)
+                        completion(["result": "success"], nil)
                     } else {
                         completion(nil, "Could not write image to album: \(String(describing: error))")
                     }

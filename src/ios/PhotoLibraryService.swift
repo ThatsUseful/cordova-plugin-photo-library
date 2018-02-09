@@ -539,7 +539,7 @@ final class PhotoLibraryService {
                     if isSuccess {
                         fetchAssets(imageUrl!)
                     } else {
-                        completion(nil, "Could not write video to album: \(String(describing: error))")
+                        completion(nil, "Could not write image to album: \(String(describing: error))")
                     }
                 }
 

@@ -527,11 +527,12 @@ final class PhotoLibraryService {
 
         func saveImage(_ photoAlbum: PHAssetCollection) {
             if #available(iOS 9.0, *) {
-                var decodedImage
+                var decodedImage:UIImage?
+                let urlObj = URL(string:url)
 
                 do{
-                    let imageData = try Data(contentsOf: URL(string:url)!)
-                    decodedImage = UIImage(data: imageData)
+                    let imageData = try Data(contentsOf: urlObj!)
+                    decodedImage = UIImage(data: imageData)!
                 } catch {
                     completion(nil, "Could not write image to album: \(String(describing: error))")
                 }
@@ -540,12 +541,11 @@ final class PhotoLibraryService {
                     let assetRequest = PHAssetChangeRequest.creationRequestForAsset(from: decodedImage!)
                     let albumChangeRequest = PHAssetCollectionChangeRequest(for: photoAlbum)
                     let placeHolder = assetRequest.placeholderForCreatedAsset
-                    let localIdentifier = placeHolder.localIdentifier
                     albumChangeRequest?.addAssets([placeHolder!] as NSArray)
-
+                    
                 }) { (isSuccess, error) in
                     if isSuccess {
-                        fetchAssets(url)
+                        fetchAssets(urlObj!)
                         // completion("Saved", nil)
                     } else {
                         completion(nil, "Could not write image to album: \(String(describing: error))")
